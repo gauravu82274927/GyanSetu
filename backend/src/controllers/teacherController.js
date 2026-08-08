@@ -32,7 +32,10 @@ const getAllTeachers = async (req, res) => {
     try {
         const teachers = await Teacher.find({});
 
-        res.status(200).json(teachers);
+        res.status(200).json({
+            count: teachers.length,
+            teachers
+        });
     } catch (error) {
         res.status(500).json({
             message: error.message
