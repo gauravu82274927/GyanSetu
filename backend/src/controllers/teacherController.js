@@ -61,5 +61,6 @@ const getTeacherById = async (req, res) => {
 
 module.exports = {
     registerTeacher,
-    getAllTeachers
+    getAllTeachers,
+    getTeacherById
 }
