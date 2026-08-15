@@ -2,7 +2,6 @@ const Teacher = require("../models/Teacher");
 
 const registerTeacher = async (req, res) => {
     try {
-        // Check if teacher already exists
         const existingTeacher = await Teacher.findOne({
             email: req.body.email
         });
@@ -13,7 +12,6 @@ const registerTeacher = async (req, res) => {
             });
         }
 
-        // Create new teacher
         const teacher = await Teacher.create(req.body);
 
         res.status(201).json({
