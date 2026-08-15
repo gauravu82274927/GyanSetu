@@ -1,14 +1,13 @@
 const express = require("express");
-
-const router = express.Router();
-
 const {
     registerTeacher,
     getAllTeachers,
-    getTeacherById
+    getTeacherById,
+    updateTeacher
 } = require("../controllers/teacherController");
-
+const router = express.Router();
 router.post("/register", registerTeacher);
 router.get("/", getAllTeachers);
 router.get("/:id", getTeacherById);
+router.put("/:id", updateTeacher);
 module.exports = router;
