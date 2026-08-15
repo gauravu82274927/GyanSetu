@@ -4,11 +4,11 @@ const router = express.Router();
 
 const {
     registerTeacher,
-    getAllTeachers
+    getAllTeachers,
+    getTeacherById
 } = require("../controllers/teacherController");
 
 router.post("/register", registerTeacher);
-
 router.get("/", getAllTeachers);
-
+router.get("/:id", getTeacherById);
 module.exports = router;
