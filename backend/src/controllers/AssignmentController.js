@@ -31,6 +31,24 @@ const getAllAssignments = async (req, res) => {
     }
 };
 
+const getAssignmentsByClass = async (req, res) => {
+    try {
+        const assignments = await Assignment.find({
+            className: req.params.className
+        });
+
+        res.status(200).json({
+            count: assignments.length,
+            assignments
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};
+
 const getAssignmentById = async (req, res) => {
     try {
         const assignment = await Assignment.findById(req.params.id);
@@ -105,6 +123,7 @@ const deleteAssignment = async (req, res) => {
 module.exports = {
     createAssignment,
     getAllAssignments,
+    getAssignmentsByClass,
     getAssignmentById,
     updateAssignment,
     deleteAssignment
