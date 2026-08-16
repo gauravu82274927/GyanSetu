@@ -31,6 +31,24 @@ const getAllSubmissions = async (req, res) => {
     }
 };
 
+const getSubmissionsByStudent = async (req, res) => {
+    try {
+        const submissions = await Submission.find({
+            studentId: req.params.studentId
+        });
+
+        res.status(200).json({
+            count: submissions.length,
+            submissions
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};
+
 const getSubmissionById = async (req, res) => {
     try {
         const submission = await Submission.findById(req.params.id);
