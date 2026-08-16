@@ -123,6 +123,7 @@ const deleteSubmission = async (req, res) => {
 module.exports = {
     createSubmission,
     getAllSubmissions,
+    getSubmissionsByStudent,
     getSubmissionById,
     updateSubmission,
     deleteSubmission
