@@ -33,8 +33,17 @@ const getAllAttendance = async (req, res) => {
 
 const getAttendanceByStudent = async (req, res) => {
     try {
+        const studentId = req.params.studentId;
+
+        // Students can only view their own attendance
+        if (req.user.role === "student" && req.user.id !== studentId) {
+            return res.status(403).json({
+                message: "Access denied"
+            });
+        }
+
         const attendance = await Attendance.find({
-            studentId: req.params.studentId
+            studentId: studentId
         });
 
         res.status(200).json({

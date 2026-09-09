@@ -27,7 +27,6 @@ router.get(
 router.get(
     "/student/:studentId",
     authMiddleware,
-    roleMiddleware("teacher"),
     getAttendanceByStudent
 );
 
