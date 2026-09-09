@@ -1,13 +1,16 @@
 const Submission = require("../models/Submission");
 const createSubmission = async (req, res) => {
     try {
-        const submission = await Submission.create(req.body);
-
+        const { assignmentId, answer } = req.body;
+        const submission = await Submission.create({
+            studentId: req.user.id,
+            assignmentId,
+            answer
+        });
         res.status(201).json({
             message: "Submission created successfully",
             submission
         });
-
     } catch (error) {
         res.status(500).json({
             message: error.message
@@ -33,8 +36,16 @@ const getAllSubmissions = async (req, res) => {
 
 const getSubmissionsByStudent = async (req, res) => {
     try {
+        const studentId = req.params.studentId;
+
+        if (req.user.id !== studentId) {
+            return res.status(403).json({
+                message: "Access denied"
+            });
+        }
+
         const submissions = await Submission.find({
-            studentId: req.params.studentId
+            studentId: studentId
         });
 
         res.status(200).json({
