@@ -20,11 +20,25 @@ const createSubmission = async (req, res) => {
 
 const getAllSubmissions = async (req, res) => {
     try {
-        const submissions = await Submission.find();
+        const submissions = await Submission.find()
+            .populate({
+                path: "studentId",
+                select: "name email className"
+            })
+            .populate({
+                path: "assignmentId",
+                select: "title subject className dueDate"
+            });
+
+        const validSubmissions = submissions.filter(
+            submission =>
+                submission.studentId &&
+                submission.assignmentId
+        );
 
         res.status(200).json({
-            count: submissions.length,
-            submissions
+            count: validSubmissions.length,
+            submissions: validSubmissions
         });
 
     } catch (error) {

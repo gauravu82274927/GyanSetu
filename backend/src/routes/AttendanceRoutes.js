@@ -1,4 +1,5 @@
 const express = require("express");
+
 const {
     createAttendance,
     getAllAttendance,
@@ -7,9 +8,13 @@ const {
     updateAttendance,
     deleteAttendance
 } = require("../controllers/AttendanceController");
+
 const authMiddleware = require("../middleware/authMiddleware");
 const roleMiddleware = require("../middleware/roleMiddleware");
+
 const router = express.Router();
+
+// Teacher: mark attendance
 router.post(
     "/",
     authMiddleware,
@@ -17,6 +22,7 @@ router.post(
     createAttendance
 );
 
+// Teacher: view all attendance
 router.get(
     "/",
     authMiddleware,
@@ -24,12 +30,15 @@ router.get(
     getAllAttendance
 );
 
+// Student: view own attendance
 router.get(
     "/student/:studentId",
     authMiddleware,
+    roleMiddleware("student"),
     getAttendanceByStudent
 );
 
+// Teacher: view attendance record
 router.get(
     "/:id",
     authMiddleware,
@@ -37,6 +46,7 @@ router.get(
     getAttendanceById
 );
 
+// Teacher: update attendance
 router.put(
     "/:id",
     authMiddleware,
@@ -44,6 +54,7 @@ router.put(
     updateAttendance
 );
 
+// Teacher: delete attendance
 router.delete(
     "/:id",
     authMiddleware,
