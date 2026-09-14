@@ -4,6 +4,7 @@ import axios from "axios";
 function StudentDashboard() {
     const [assignments, setAssignments] = useState([]);
     const [submissions, setSubmissions] = useState([]);
+    const [attendance, setAttendance] = useState([]);
     const [answers, setAnswers] = useState({});
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
@@ -42,9 +43,15 @@ function StudentDashboard() {
                     config
                 );
 
+                const attendanceResponse = await axios.get(
+                    `http://localhost:3000/api/attendance/student/${studentId}`,
+                    config
+                );
+
                 setAssignments(assignmentResponse.data.assignments);
                 setSubmissions(submissionResponse.data.submissions);
-
+                setAttendance(attendanceResponse.data.attendance);
+                
             } catch (error) {
                 setError(
                     error.response?.data?.message ||
@@ -194,6 +201,30 @@ function StudentDashboard() {
                     );
                 })
             )}
+            <h2>My Attendance</h2>
+
+        {attendance.length === 0 ? (
+            <p>No attendance records available.</p>
+        ) : (
+            attendance.map((record) => (
+                <div key={record._id}>
+                    <p>
+                        <strong>Date:</strong>{" "}
+                        {new Date(record.date).toLocaleDateString()}
+                    </p>
+
+                    <p>
+                        <strong>Class:</strong> {record.className}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong> {record.status}
+                    </p>
+
+                    <hr />
+                </div>
+            ))
+        )}
         </div>
     );
 }
