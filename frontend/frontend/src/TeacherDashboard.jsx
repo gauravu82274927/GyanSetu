@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 function TeacherDashboard() {
+    const [students, setStudents] = useState([]);
+    const [attendanceStatus, setAttendanceStatus] = useState({});
+    const [attendanceMessage, setAttendanceMessage] = useState("");
     const [assignments, setAssignments] = useState([]);
     const [submissions, setSubmissions] = useState([]);
     const [marks, setMarks] = useState({});
@@ -29,6 +32,11 @@ function TeacherDashboard() {
                     config
                 );
 
+                const studentResponse = await axios.get(
+                    "http://localhost:3000/api/students",
+                    config
+                );
+
                 setAssignments(
                     assignmentResponse.data.assignments
                 );
@@ -37,6 +45,8 @@ function TeacherDashboard() {
                     submissionResponse.data.submissions
                 );
 
+                setStudents(studentResponse.data.students);
+
             } catch (error) {
                 setError(
                     error.response?.data?.message ||
@@ -44,6 +54,8 @@ function TeacherDashboard() {
                 );
             }
         };
+
+        
 
         fetchData();
     }, []);
@@ -94,6 +106,38 @@ function TeacherDashboard() {
             );
         }
     };
+        const markAttendance = async (studentId, status) => {
+        try {
+            await axios.post(
+                "http://localhost:3000/api/attendance",
+                {
+                    studentId,
+                    className: student.className,
+                    date: new Date().toISOString(),
+                    status,
+                    markedBy: JSON.parse(
+                        atob(token.split(".")[1])
+                    ).id
+                },
+                config
+            );
+
+            setAttendanceStatus({
+                ...attendanceStatus,
+                [studentId]: status
+            });
+
+            setAttendanceMessage(
+                "Attendance marked successfully!"
+            );
+
+        } catch (error) {
+            setAttendanceMessage(
+                error.response?.data?.message ||
+                "Failed to mark attendance"
+            );
+        }
+    };
 
     return (
         <div>
@@ -141,9 +185,9 @@ function TeacherDashboard() {
                 submissions.map((submission) => (
                     <div key={submission._id}>
                         <p>
-    <strong>Assignment:</strong>{" "}
-    {submission.assignmentId?.title ||
-        "Unknown Assignment"}
+                            <strong>Assignment:</strong>{" "}
+                            {submission.assignmentId?.title ||
+                                "Unknown Assignment"}
                         </p>
 
                         <p>
@@ -203,6 +247,57 @@ function TeacherDashboard() {
                                     Grade
                                 </button>
                             </div>
+                        )}
+
+                        <hr />
+                    </div>
+                ))
+                        )}
+
+            <h2>Mark Attendance</h2>
+
+            {attendanceMessage && (
+                <p>{attendanceMessage}</p>
+            )}
+
+            {students.length === 0 ? (
+                <p>No students available.</p>
+            ) : (
+                students.map((student) => (
+                    <div key={student._id}>
+                        <h3>{student.name}</h3>
+
+                        <p>
+                            Class: {student.className}
+                        </p>
+
+                        <button
+                            onClick={() =>
+                                markAttendance(
+                                    student._id,
+                                    "Present"
+                                )
+                            }
+                        >
+                            Present
+                        </button>
+
+                        <button
+                            onClick={() =>
+                                markAttendance(
+                                    student._id,
+                                    "Absent"
+                                )
+                            }
+                        >
+                            Absent
+                        </button>
+
+                        {attendanceStatus[student._id] && (
+                            <p>
+                                Status:{" "}
+                                {attendanceStatus[student._id]}
+                            </p>
                         )}
 
                         <hr />
