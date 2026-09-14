@@ -10,6 +10,13 @@ function TeacherDashboard() {
     const [marks, setMarks] = useState({});
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
+    const [assignmentForm, setAssignmentForm] = useState({
+        title: "",
+        description: "",
+        subject: "",
+        className: "",
+        dueDate: ""
+    });
 
     const token = localStorage.getItem("token");
 
@@ -37,6 +44,11 @@ function TeacherDashboard() {
                     config
                 );
 
+                const attendanceResponse = await axios.get(
+                    "http://localhost:3000/api/attendance",
+                    config
+                );
+
                 setAssignments(
                     assignmentResponse.data.assignments
                 );
@@ -46,6 +58,22 @@ function TeacherDashboard() {
                 );
 
                 setStudents(studentResponse.data.students);
+
+                const today = new Date().toISOString().split("T")[0];
+
+                const todayAttendance = attendanceResponse.data.attendance.filter(
+                    (record) =>
+                        new Date(record.date).toISOString().split("T")[0] === today
+                );
+
+                const attendanceMap = {};
+
+                todayAttendance.forEach((record) => {
+                    attendanceMap[record.studentId?._id || record.studentId] =
+                        record.status;
+                });
+
+                setAttendanceStatus(attendanceMap);
 
             } catch (error) {
                 setError(
@@ -106,6 +134,57 @@ function TeacherDashboard() {
             );
         }
     };
+    
+    const createAssignment = async () => {
+    try {
+        if (
+            !assignmentForm.title ||
+            !assignmentForm.description ||
+            !assignmentForm.subject ||
+            !assignmentForm.className ||
+            !assignmentForm.dueDate
+        ) {
+            setError("Please fill all assignment fields.");
+            return;
+        }
+
+        const teacherId = JSON.parse(
+            atob(token.split(".")[1])
+        ).id;
+
+        const response = await axios.post(
+            "http://localhost:3000/api/assignments",
+            {
+                ...assignmentForm,
+                teacherId
+            },
+            config
+        );
+
+        setAssignments([
+            ...assignments,
+            response.data.assignment
+        ]);
+
+        setAssignmentForm({
+            title: "",
+            description: "",
+            subject: "",
+            className: "",
+            dueDate: ""
+        });
+
+        setMessage("Assignment created successfully!");
+        setError("");
+
+    } catch (error) {
+        setError(
+            error.response?.data?.message ||
+            "Failed to create assignment"
+        );
+    }
+};
+
         const markAttendance = async (studentId, status) => {
         try {
             await axios.post(
@@ -145,6 +224,82 @@ function TeacherDashboard() {
 
             {message && <p>{message}</p>}
             {error && <p>{error}</p>}
+
+            <h2>Create Assignment</h2>
+
+<div>
+    <input
+        type="text"
+        placeholder="Assignment title"
+        value={assignmentForm.title}
+        onChange={(e) =>
+            setAssignmentForm({
+                ...assignmentForm,
+                title: e.target.value
+            })
+        }
+    />
+
+    <br /><br />
+
+    <textarea
+        placeholder="Assignment description"
+        value={assignmentForm.description}
+        onChange={(e) =>
+            setAssignmentForm({
+                ...assignmentForm,
+                description: e.target.value
+            })
+        }
+    />
+
+    <br /><br />
+
+    <input
+        type="text"
+        placeholder="Subject"
+        value={assignmentForm.subject}
+        onChange={(e) =>
+            setAssignmentForm({
+                ...assignmentForm,
+                subject: e.target.value
+            })
+        }
+    />
+
+    <br /><br />
+
+    <input
+        type="text"
+        placeholder="Class (e.g. CSE-A)"
+        value={assignmentForm.className}
+        onChange={(e) =>
+            setAssignmentForm({
+                ...assignmentForm,
+                className: e.target.value
+            })
+        }
+    />
+
+    <br /><br />
+
+    <input
+        type="date"
+        value={assignmentForm.dueDate}
+        onChange={(e) =>
+            setAssignmentForm({
+                ...assignmentForm,
+                dueDate: e.target.value
+            })
+        }
+    />
+
+    <br /><br />
+
+    <button onClick={createAssignment}>
+        Create Assignment
+    </button>
+</div>
 
             <h2>My Assignments</h2>
 
