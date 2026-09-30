@@ -8,8 +8,16 @@ import {
     GraduationCap
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Sidebar() {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        navigate("/");
+    };
     const links = [
         {
             name: "Dashboard",
@@ -62,7 +70,7 @@ function Sidebar() {
                 })}
             </nav>
 
-            <button className="logout-button">
+            <button className="logout-button" onClick={handleLogout}>
                 <LogOut size={19} />
                 <span>Logout</span>
             </button>
