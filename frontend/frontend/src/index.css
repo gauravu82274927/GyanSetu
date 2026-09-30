@@ -1020,3 +1020,178 @@ button {
         flex-direction: column;
     }
 }
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #666b67;
+    text-decoration: none;
+    font-size: 12px;
+    margin-bottom: 24px;
+}
+
+.back-link:hover {
+    color: #315c4a;
+}
+
+.assignment-detail-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.assignment-detail-header h1 {
+    margin: 4px 0 6px;
+    font-size: 28px;
+    font-weight: 600;
+    color: #202522;
+}
+
+.assignment-detail-header p:last-child {
+    margin: 0;
+    color: #777d78;
+    font-size: 13px;
+}
+
+.assignment-detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.assignment-description-card,
+.assignment-info-card,
+.submission-card {
+    min-width: 0;
+}
+
+.assignment-description-card > .card-header svg {
+    color: #315c4a;
+}
+
+.assignment-description {
+    margin: 24px 0 4px;
+    color: #444a46;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 14px 0;
+    border-bottom: 1px solid #e8e9e6;
+    font-size: 12px;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-item span {
+    color: #858984;
+}
+
+.detail-item strong {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #303632;
+    font-weight: 500;
+}
+
+.submission-card {
+    margin-bottom: 30px;
+}
+
+.submission-form {
+    margin-top: 20px;
+}
+
+.submission-form textarea {
+    width: 100%;
+    min-height: 150px;
+    resize: vertical;
+    box-sizing: border-box;
+    padding: 13px 14px;
+    border: 1px solid #dfe2de;
+    border-radius: 5px;
+    background: #fafaf8;
+    color: #303632;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.6;
+    outline: none;
+}
+
+.submission-form textarea:focus {
+    border-color: #315c4a;
+    background: #fff;
+}
+
+.submission-form textarea::placeholder {
+    color: #a1a5a1;
+}
+
+.submission-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 14px;
+}
+
+.primary-button {
+    border: 1px solid #315c4a;
+    background: #315c4a;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.primary-button:hover {
+    background: #274c3d;
+}
+
+.submission-result {
+    display: flex;
+    gap: 50px;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid #e8e9e6;
+}
+
+.submission-result div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.submission-result span {
+    color: #858984;
+    font-size: 11px;
+}
+
+.submission-result strong {
+    color: #303632;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+@media (max-width: 850px) {
+    .assignment-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .assignment-detail-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

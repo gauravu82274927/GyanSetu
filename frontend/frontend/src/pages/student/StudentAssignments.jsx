@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowUpRight, Filter } from "lucide-react";
+import { Link } from "react-router-dom";import { ArrowUpRight, Filter } from "lucide-react";
 import Sidebar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import { assignments } from "../../data/mockData";
@@ -110,10 +110,13 @@ function StudentAssignments() {
                                         {assignment.status}
                                     </span>
 
-                                    <button className="assignment-open">
-                                        Open
+                                    <Link
+                                        to={`/student/assignments/${assignment.id}`}
+                                        className="assignment-open"
+                                    >
+                                        View
                                         <ArrowUpRight size={14} />
-                                    </button>
+                                    </Link>
                                 </div>
                             )
                         )}

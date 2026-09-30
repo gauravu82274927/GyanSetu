@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
+import StudentAssignmentDetail from "./pages/student/StudentAssignmentDetail";
 import StudentDashboard from "./pages/student/StudentDashBoard";
 import StudentAssignments from "./pages/student/StudentAssignments";
 import StudentSubmissions from "./pages/student/StudentSubmissions";
@@ -20,6 +21,11 @@ function App() {
                 <Route
                     path="/student/assignments"
                     element={<StudentAssignments />}
+                />
+
+                <Route
+                    path="/student/assignments/:id"
+                    element={<StudentAssignmentDetail />}
                 />
 
                 <Route
