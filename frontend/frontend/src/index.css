@@ -1195,3 +1195,153 @@ button {
         flex-direction: column;
     }
 }
+
+.submission-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid #e1e3df;
+    background: #fff;
+    margin-bottom: 20px;
+}
+
+.submission-summary > div {
+    padding: 18px 20px;
+    border-right: 1px solid #e1e3df;
+}
+
+.submission-summary > div:last-child {
+    border-right: none;
+}
+
+.submission-summary span {
+    display: block;
+    color: #858984;
+    font-size: 11px;
+    margin-bottom: 7px;
+}
+
+.submission-summary strong {
+    color: #303632;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.submission-page-card {
+    background: #fff;
+    border: 1px solid #e1e3df;
+}
+
+.submission-table-header,
+.submission-table-row {
+    display: grid;
+    grid-template-columns: 2fr 0.8fr 1fr 0.9fr 0.7fr 0.7fr;
+    align-items: center;
+    gap: 18px;
+    padding: 15px 20px;
+}
+
+.submission-table-header {
+    background: #fafaf8;
+    border-bottom: 1px solid #e1e3df;
+    color: #858984;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.submission-table-row {
+    min-height: 72px;
+    border-bottom: 1px solid #e8e9e6;
+    color: #555b56;
+    font-size: 12px;
+}
+
+.submission-table-row:last-child {
+    border-bottom: none;
+}
+
+.submission-title {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.submission-title > svg {
+    flex-shrink: 0;
+    color: #315c4a;
+}
+
+.submission-title h3 {
+    margin: 0 0 4px;
+    color: #303632;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.submission-title p {
+    margin: 0;
+    color: #8a8f8b;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.submission-marks {
+    color: #303632;
+    font-weight: 600;
+}
+
+.submission-view {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: fit-content;
+    color: #315c4a;
+    text-decoration: none;
+    font-size: 11px;
+}
+
+.submission-view:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+    .submission-table-header {
+        display: none;
+    }
+
+    .submission-table-row {
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        padding: 17px;
+    }
+
+    .submission-table-row > span:not(.status-badge),
+    .submission-marks {
+        display: none;
+    }
+
+    .submission-view {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .submission-title {
+        grid-column: 1;
+    }
+
+    .submission-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .submission-summary > div {
+        border-right: none;
+        border-bottom: 1px solid #e1e3df;
+    }
+
+    .submission-summary > div:last-child {
+        border-bottom: none;
+    }
+}
