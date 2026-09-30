@@ -1345,3 +1345,131 @@ button {
         border-bottom: none;
     }
 }
+
+.attendance-overview {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(3, 1fr);
+    background: #fff;
+    border: 1px solid #e1e3df;
+    margin-bottom: 20px;
+}
+
+.attendance-main,
+.attendance-stat {
+    padding: 20px;
+    border-right: 1px solid #e1e3df;
+}
+
+.attendance-stat:last-child {
+    border-right: none;
+}
+
+.attendance-main span,
+.attendance-stat span {
+    display: block;
+    color: #858984;
+    font-size: 11px;
+    margin-bottom: 8px;
+}
+
+.attendance-main strong {
+    display: block;
+    color: #315c4a;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.attendance-main p {
+    margin: 8px 0 0;
+    color: #8a8f8b;
+    font-size: 11px;
+}
+
+.attendance-stat strong {
+    color: #303632;
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.attendance-card {
+    background: #fff;
+    border: 1px solid #e1e3df;
+}
+
+.attendance-card > .card-header {
+    padding: 20px;
+    border-bottom: 1px solid #e1e3df;
+}
+
+.attendance-card > .card-header > svg {
+    color: #315c4a;
+}
+
+.attendance-table-header,
+.attendance-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    padding: 14px 20px;
+    gap: 20px;
+}
+
+.attendance-table-header {
+    background: #fafaf8;
+    color: #858984;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #e1e3df;
+}
+
+.attendance-row {
+    min-height: 55px;
+    color: #555b56;
+    font-size: 12px;
+    border-bottom: 1px solid #e8e9e6;
+}
+
+.attendance-row:last-child {
+    border-bottom: none;
+}
+
+.attendance-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.attendance-status.present {
+    color: #315c4a;
+}
+
+.attendance-status.absent {
+    color: #9a5a42;
+}
+
+@media (max-width: 750px) {
+    .attendance-overview {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .attendance-main {
+        grid-column: span 2;
+        border-right: none;
+        border-bottom: 1px solid #e1e3df;
+    }
+
+    .attendance-stat:nth-child(3) {
+        border-right: none;
+    }
+
+    .attendance-table-header,
+    .attendance-row {
+        grid-template-columns: 1fr 1fr 1fr;
+        padding: 13px 15px;
+    }
+}
