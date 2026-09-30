@@ -30,11 +30,6 @@ function Sidebar() {
             name: "Attendance",
             path: "/student/attendance",
             icon: CalendarCheck
-        },
-        {
-            name: "Profile",
-            path: "/student/profile",
-            icon: User
         }
     ];
 

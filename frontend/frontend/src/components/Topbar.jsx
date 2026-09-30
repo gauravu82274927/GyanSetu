@@ -1,4 +1,5 @@
 import { Bell } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function Topbar() {
     return (
@@ -14,9 +15,9 @@ function Topbar() {
                     <span></span>
                 </button>
 
-                <div className="avatar">
-                    TS
-                </div>
+                <Link to="/student/profile" className="avatar-link">
+                    <div className="avatar">G</div>
+                </Link>
             </div>
         </header>
     );
