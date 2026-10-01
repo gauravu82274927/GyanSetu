@@ -1864,3 +1864,105 @@ button {
         padding: 15px 18px;
     }
 }
+
+.teacher-submission-header,
+.teacher-submission-row {
+    display: grid;
+    grid-template-columns: 1.3fr 1.5fr 0.8fr 1fr 0.9fr 0.7fr 0.8fr;
+    align-items: center;
+    gap: 16px;
+    padding: 15px 20px;
+}
+
+.teacher-submission-header {
+    background: #fafaf8;
+    border-bottom: 1px solid #e1e3df;
+    color: #858984;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.teacher-submission-row {
+    min-height: 70px;
+    border-bottom: 1px solid #e8e9e6;
+    color: #555b56;
+    font-size: 12px;
+}
+
+.teacher-submission-row:last-child {
+    border-bottom: none;
+}
+
+.submission-student {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.mini-avatar {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #edf1ed;
+    color: #315c4a;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.submission-student h3 {
+    margin: 0 0 3px;
+    color: #303632;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.submission-student p {
+    margin: 0;
+    color: #8a8f8b;
+    font-size: 10px;
+}
+
+.teacher-submission-row .submission-title {
+    min-width: 0;
+}
+
+.teacher-submission-row .submission-title span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 1000px) {
+    .teacher-submission-header {
+        display: none;
+    }
+
+    .teacher-submission-row {
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        padding: 17px;
+    }
+
+    .teacher-submission-row > span:not(.status-badge),
+    .teacher-submission-row .submission-marks {
+        display: none;
+    }
+
+    .submission-student {
+        grid-column: 1;
+    }
+
+    .teacher-submission-row .submission-title {
+        grid-column: 1;
+    }
+
+    .teacher-submission-row .submission-view {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+    }
+}

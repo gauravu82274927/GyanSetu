@@ -9,6 +9,7 @@ import StudentProfile from "./pages/student/StudentProfile";
 import TeacherDashboard from "./pages/teacher/TeacherDashBoard";
 import TeacherAssignments from "./pages/teacher/TeacherAssignments";
 import TeacherCreateAssignment from "./pages/teacher/TeacherCreateAssignment";
+import TeacherSubmissions from "./pages/teacher/TeacherSubmissions";
 
 function App() {
     return (
@@ -64,6 +65,11 @@ function App() {
                 <Route
                     path="/teacher/assignments/create"
                     element={<TeacherCreateAssignment />}
+                />
+
+                <Route
+                    path="/teacher/submissions"
+                    element={<TeacherSubmissions />}
                 />
             </Routes>
         </BrowserRouter>
