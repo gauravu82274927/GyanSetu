@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import api from "../../api";
+
 import {
     ClipboardList,
     Clock3,
@@ -12,6 +15,53 @@ import { assignments, attendance, student } from "../../data/mockData";
 import { Link } from "react-router-dom";
 
 function StudentDashboard() {
+    const [studentData, setStudentData] = useState(null);
+    const [assignmentData, setAssignmentData] = useState([]);
+    const [submissionData, setSubmissionData] = useState([]);
+    const [attendanceData, setAttendanceData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const loadDashboard = async () => {
+            try {
+                const studentResponse = await api.get("/auth/me/student");
+
+                const student = studentResponse.data;
+
+                setStudentData(student);
+
+                const [
+                    assignmentResponse,
+                    submissionResponse,
+                    attendanceResponse
+                ] = await Promise.all([
+                    api.get(`/assignments/class/${student.className}`),
+                    api.get(`/submissions/student/${student._id}`),
+                    api.get(`/attendance/student/${student._id}`)
+                ]);
+
+                setAssignmentData(assignmentResponse.data);
+                setSubmissionData(submissionResponse.data);
+                setAttendanceData(attendanceResponse.data);
+
+            } catch (error) {
+                console.error("Dashboard loading failed:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadDashboard();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="page-content">
+                <p>Loading dashboard...</p>
+            </div>
+        );
+    }
+
     const pendingAssignments = assignments.filter(
         (assignment) => assignment.status === "Pending"
     );
