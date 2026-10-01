@@ -2033,3 +2033,141 @@ button {
         grid-template-columns: 1fr;
     }
 }
+
+.student-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.student-count {
+    color: #666b67;
+    font-size: 12px;
+}
+
+.student-search {
+    width: 260px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 11px;
+    box-sizing: border-box;
+    border: 1px solid #dfe2de;
+    background: #fff;
+}
+
+.student-search svg {
+    color: #858984;
+    flex-shrink: 0;
+}
+
+.student-search input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #303632;
+    font-family: inherit;
+    font-size: 11px;
+}
+
+.student-search input::placeholder {
+    color: #a1a5a1;
+}
+
+.students-page-card {
+    background: #fff;
+    border: 1px solid #e1e3df;
+}
+
+.students-table-header,
+.students-table-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 0.8fr 0.8fr;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 20px;
+}
+
+.students-table-header {
+    background: #fafaf8;
+    border-bottom: 1px solid #e1e3df;
+    color: #858984;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.students-table-row {
+    min-height: 62px;
+    border-bottom: 1px solid #e8e9e6;
+    color: #555b56;
+    font-size: 12px;
+}
+
+.students-table-row:last-child {
+    border-bottom: none;
+}
+
+.student-row-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.student-row-name h3 {
+    margin: 0 0 3px;
+    color: #303632;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.student-row-name p {
+    margin: 0;
+    color: #8a8f8b;
+    font-size: 10px;
+}
+
+.student-active,
+.student-inactive {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+}
+
+.student-active {
+    color: #315c4a;
+}
+
+.student-inactive {
+    color: #9a5a42;
+}
+
+@media (max-width: 800px) {
+    .student-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .student-search {
+        width: 100%;
+    }
+
+    .students-table-header {
+        display: none;
+    }
+
+    .students-table-row {
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+        padding: 16px;
+    }
+
+    .students-table-row > span:not(.student-active):not(.student-inactive) {
+        display: none;
+    }
+}
