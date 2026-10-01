@@ -2171,3 +2171,137 @@ button {
         display: none;
     }
 }
+
+.teacher-attendance-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding: 15px 18px;
+    background: #fff;
+    border: 1px solid #e1e3df;
+}
+
+.attendance-date {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #315c4a;
+}
+
+.attendance-date > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.attendance-date span,
+.attendance-class span {
+    color: #858984;
+    font-size: 10px;
+}
+
+.attendance-date input {
+    border: none;
+    outline: none;
+    padding: 0;
+    color: #303632;
+    font-family: inherit;
+    font-size: 12px;
+    background: transparent;
+}
+
+.attendance-class {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: right;
+}
+
+.attendance-class strong {
+    color: #303632;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.teacher-attendance-card {
+    background: #fff;
+    border: 1px solid #e1e3df;
+}
+
+.teacher-attendance-header,
+.teacher-attendance-row {
+    display: grid;
+    grid-template-columns: 1.5fr 0.8fr 0.8fr 1fr;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 20px;
+}
+
+.teacher-attendance-header {
+    background: #fafaf8;
+    border-bottom: 1px solid #e1e3df;
+    color: #858984;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.teacher-attendance-row {
+    min-height: 65px;
+    color: #555b56;
+    font-size: 12px;
+}
+
+.attendance-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.attendance-action {
+    padding: 7px 10px;
+    border: 1px solid #dfe2de;
+    border-radius: 4px;
+    background: #fff;
+    color: #666b67;
+    font-family: inherit;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.attendance-action:hover,
+.attendance-action.active {
+    border-color: #315c4a;
+    background: #315c4a;
+    color: #fff;
+}
+
+@media (max-width: 750px) {
+    .teacher-attendance-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .attendance-class {
+        text-align: left;
+    }
+
+    .teacher-attendance-header {
+        display: none;
+    }
+
+    .teacher-attendance-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 17px;
+    }
+
+    .attendance-actions {
+        width: 100%;
+    }
+
+    .attendance-action {
+        flex: 1;
+    }
+}
