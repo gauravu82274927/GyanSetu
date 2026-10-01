@@ -13,6 +13,7 @@ import TeacherSubmissions from "./pages/teacher/TeacherSubmissions";
 import TeacherSubmissionDetail from "./pages/teacher/TeacherSubmissionDetail";
 import TeacherStudents from "./pages/teacher/TeacherStudents";
 import TeacherAttendance from "./pages/teacher/TeacherAttendance";
+import TeacherProfile from "./pages/teacher/TeacherProfile";
 
 function App() {
     return (
@@ -88,6 +89,10 @@ function App() {
                 <Route
                     path="/teacher/attendance"
                     element={<TeacherAttendance />}
+                />
+                <Route
+                    path="/teacher/profile"
+                    element={<TeacherProfile />}
                 />
             </Routes>
         </BrowserRouter>

@@ -1,6 +1,13 @@
 import { Bell } from "lucide-react";
 import { Link } from "react-router-dom";
 
+const role = localStorage.getItem("role") || "student";
+
+const profilePath =
+    role === "teacher"
+        ? "/teacher/profile"
+        : "/student/profile";
+
 function Topbar() {
     return (
         <header className="topbar">
@@ -15,7 +22,7 @@ function Topbar() {
                     <span></span>
                 </button>
 
-                <Link to="/student/profile" className="avatar-link">
+                <Link to={profilePath} className="avatar-link">
                     <div className="avatar">G</div>
                 </Link>
             </div>
