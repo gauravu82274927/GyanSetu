@@ -159,9 +159,28 @@ const loginStudent = async (req, res) => {
     }
 };
 
+const getCurrentStudent = async (req, res) => {
+    try {
+        const student = await Student.findById(req.user.id).select("-password");
+
+        if (!student) {
+            return res.status(404).json({
+                message: "Student not found"
+            });
+        }
+
+        res.json(student);
+    } catch (error) {
+        res.status(500).json({
+            message: "Failed to fetch student profile"
+        });
+    }
+};
+
 module.exports = {
     registerTeacher,
     registerStudent,
     loginTeacher,
-    loginStudent
+    loginStudent,
+    getCurrentStudent
 };
