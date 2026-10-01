@@ -1,6 +1,7 @@
 import { GraduationCap, Mail, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 
 function Login() {
@@ -10,19 +11,35 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleLogin = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (role === "student") {
-            localStorage.setItem("token", "mock-student-token");
-            localStorage.setItem("role", "student");
+        try {
+            const endpoint =
+                role === "student"
+                    ? "http://localhost:3000/api/auth/login/student"
+                    : "http://localhost:3000/api/auth/login/teacher";
 
-            navigate("/student/dashboard");
-        } else {
-            localStorage.setItem("token", "mock-teacher-token");
-            localStorage.setItem("role", "teacher");
+            const response = await axios.post(endpoint, {
+                email,
+                password
+            });
 
-            navigate("/teacher/dashboard");
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("role", role);
+
+            if (role === "student") {
+                navigate("/student/dashboard");
+            } else {
+                navigate("/teacher/dashboard");
+            }
+        } catch (error) {
+            console.error(error);
+
+            alert(
+                error.response?.data?.message ||
+                "Login failed. Please check your credentials."
+            );
         }
     };
 
@@ -67,7 +84,7 @@ function Login() {
 
                 </div>
 
-                <form onSubmit={handleLogin}>
+                <form onSubmit={handleSubmit}>
 
                     <label>Email address</label>
 
