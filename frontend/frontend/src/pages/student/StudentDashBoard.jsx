@@ -2,16 +2,11 @@ import { useEffect, useState } from "react";
 import api from "../../api";
 
 import {
-    ClipboardList,
-    Clock3,
-    CheckCircle2,
-    CalendarDays,
     ArrowUpRight
 } from "lucide-react";
 
 import Sidebar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
-import { assignments, attendance, student } from "../../data/mockData";
 import { Link } from "react-router-dom";
 
 function StudentDashboard() {
@@ -24,28 +19,54 @@ function StudentDashboard() {
     useEffect(() => {
         const loadDashboard = async () => {
             try {
-                const studentResponse = await api.get("/auth/me/student");
+                const studentResponse = await api.get(
+                    "/auth/me/student"
+                );
 
-                const student = studentResponse.data;
+                const currentStudent = studentResponse.data;
 
-                setStudentData(student);
+                setStudentData(currentStudent);
 
                 const [
                     assignmentResponse,
                     submissionResponse,
                     attendanceResponse
                 ] = await Promise.all([
-                    api.get(`/assignments/class/${student.className}`),
-                    api.get(`/submissions/student/${student._id}`),
-                    api.get(`/attendance/student/${student._id}`)
+                    api.get(
+                        `/assignments/class/${currentStudent.className}`
+                    ),
+                    api.get(
+                        `/submissions/student/${currentStudent._id}`
+                    ),
+                    api.get(
+                        `/attendance/student/${currentStudent._id}`
+                    )
                 ]);
 
-                setAssignmentData(assignmentResponse.data);
-                setSubmissionData(submissionResponse.data);
-                setAttendanceData(attendanceResponse.data);
+                // Make sure every piece of data is stored as an array
+                setAssignmentData(
+                    Array.isArray(assignmentResponse.data)
+                        ? assignmentResponse.data
+                        : assignmentResponse.data?.assignments || []
+                );
+
+                setSubmissionData(
+                    Array.isArray(submissionResponse.data)
+                        ? submissionResponse.data
+                        : submissionResponse.data?.submissions || []
+                );
+
+                setAttendanceData(
+                    Array.isArray(attendanceResponse.data)
+                        ? attendanceResponse.data
+                        : attendanceResponse.data?.attendance || []
+                );
 
             } catch (error) {
-                console.error("Dashboard loading failed:", error);
+                console.error(
+                    "Dashboard loading failed:",
+                    error
+                );
             } finally {
                 setLoading(false);
             }
@@ -62,25 +83,47 @@ function StudentDashboard() {
         );
     }
 
-    const pendingAssignments = assignments.filter(
-        (assignment) => assignment.status === "Pending"
+    const totalAssignments = assignmentData.length;
+
+    const submittedAssignmentIds = new Set(
+        submissionData.map(
+            (submission) =>
+                submission.assignmentId?._id ||
+                submission.assignmentId
+        )
     );
 
-    const submittedAssignments = assignments.filter(
-        (assignment) => assignment.status === "Submitted"
-    );
-
-    const upcomingAssignments = [...pendingAssignments]
-        .slice(0, 3);
-
-    const presentCount = attendance.filter(
-        (record) => record.status === "Present"
+    const submittedCount = assignmentData.filter(
+        (assignment) =>
+            submittedAssignmentIds.has(assignment._id)
     ).length;
 
+    const pendingCount =
+        totalAssignments - submittedCount;
+
     const attendancePercentage =
-        attendance.length > 0
-            ? Math.round((presentCount / attendance.length) * 100)
+        attendanceData.length > 0
+            ? Math.round(
+                  (attendanceData.filter(
+                      (record) =>
+                          record.status === "Present"
+                  ).length /
+                      attendanceData.length) *
+                      100
+              )
             : 0;
+
+    const upcomingAssignments = [...assignmentData]
+        .filter(
+            (assignment) =>
+                new Date(assignment.dueDate) >= new Date()
+        )
+        .sort(
+            (a, b) =>
+                new Date(a.dueDate) -
+                new Date(b.dueDate)
+        )
+        .slice(0, 3);
 
     return (
         <div className="app-layout">
@@ -99,11 +142,12 @@ function StudentDashboard() {
                         </p>
 
                         <h1>
-                            {student.name}
+                            {studentData?.name || "Student"}
                         </h1>
 
                         <p>
-                            {student.className} · Computer Science Engineering
+                            {studentData?.className || "—"}{" "}
+                            · Computer Science Engineering
                         </p>
                     </div>
 
@@ -117,7 +161,7 @@ function StudentDashboard() {
                             </p>
 
                             <h3>
-                                {assignments.length}
+                                {totalAssignments}
                             </h3>
 
                             <p className="stat-description">
@@ -131,7 +175,7 @@ function StudentDashboard() {
                             </p>
 
                             <h3>
-                                {pendingAssignments.length}
+                                {pendingCount}
                             </h3>
 
                             <p className="stat-description">
@@ -145,7 +189,7 @@ function StudentDashboard() {
                             </p>
 
                             <h3>
-                                {submittedAssignments.length}
+                                {submittedCount}
                             </h3>
 
                             <p className="stat-description">
@@ -201,37 +245,67 @@ function StudentDashboard() {
 
                             <div className="assignment-list">
 
-                                {assignments.map((assignment) => (
-                                    <div
-                                        className="assignment-row"
-                                        key={assignment.id}
+                                {assignmentData.length === 0 ? (
+                                    <p
+                                        style={{
+                                            color: "#858984",
+                                            fontSize: "12px",
+                                            paddingTop: "15px"
+                                        }}
                                     >
+                                        No assignments available.
+                                    </p>
+                                ) : (
+                                    assignmentData
+                                        .slice(0, 4)
+                                        .map((assignment) => {
+                                            const isSubmitted =
+                                                submittedAssignmentIds.has(
+                                                    assignment._id
+                                                );
 
-                                        <div>
-                                            <h3>
-                                                {assignment.title}
-                                            </h3>
+                                            return (
+                                                <div
+                                                    className="assignment-row"
+                                                    key={assignment._id}
+                                                >
+                                                    <div>
+                                                        <h3>
+                                                            {assignment.title}
+                                                        </h3>
 
-                                            <p>
-                                                {assignment.subject}
-                                                {" · "}
-                                                Due {assignment.dueDate}
-                                            </p>
-                                        </div>
+                                                        <p>
+                                                            {assignment.subject}
+                                                            {" · "}
+                                                            Due{" "}
+                                                            {new Date(
+                                                                assignment.dueDate
+                                                            ).toLocaleDateString(
+                                                                "en-GB",
+                                                                {
+                                                                    day: "2-digit",
+                                                                    month: "short",
+                                                                    year: "numeric"
+                                                                }
+                                                            )}
+                                                        </p>
+                                                    </div>
 
-                                        <span
-                                            className={`status-badge ${
-                                                assignment.status ===
-                                                "Submitted"
-                                                    ? "success"
-                                                    : "warning"
-                                            }`}
-                                        >
-                                            {assignment.status}
-                                        </span>
-
-                                    </div>
-                                ))}
+                                                    <span
+                                                        className={`status-badge ${
+                                                            isSubmitted
+                                                                ? "success"
+                                                                : "warning"
+                                                        }`}
+                                                    >
+                                                        {isSubmitted
+                                                            ? "Submitted"
+                                                            : "Pending"}
+                                                    </span>
+                                                </div>
+                                            );
+                                        })
+                                )}
 
                             </div>
 
@@ -279,7 +353,7 @@ function StudentDashboard() {
                                     upcomingAssignments.map(
                                         (assignment) => (
                                             <div
-                                                key={assignment.id}
+                                                key={assignment._id}
                                                 className="summary-item"
                                             >
                                                 <span>
@@ -287,7 +361,15 @@ function StudentDashboard() {
                                                 </span>
 
                                                 <strong>
-                                                    {assignment.dueDate}
+                                                    {new Date(
+                                                        assignment.dueDate
+                                                    ).toLocaleDateString(
+                                                        "en-GB",
+                                                        {
+                                                            day: "2-digit",
+                                                            month: "short"
+                                                        }
+                                                    )}
                                                 </strong>
                                             </div>
                                         )
@@ -314,25 +396,41 @@ function StudentDashboard() {
 
                                 </div>
 
-                                <div className="summary-item">
-                                    <span>
-                                        Java Basics
-                                    </span>
+                                {submissionData.length === 0 ? (
+                                    <div className="summary-item">
+                                        <span>
+                                            No submissions yet
+                                        </span>
 
-                                    <strong>
-                                        Graded · 7/10
-                                    </strong>
-                                </div>
+                                        <strong>
+                                            —
+                                        </strong>
+                                    </div>
+                                ) : (
+                                    submissionData
+                                        .slice(0, 3)
+                                        .map((submission) => (
+                                            <div
+                                                className="summary-item"
+                                                key={submission._id}
+                                            >
+                                                <span>
+                                                    {submission.assignmentId?.title ||
+                                                        "Assignment"}
+                                                </span>
 
-                                <div className="summary-item">
-                                    <span>
-                                        DBMS Assignment
-                                    </span>
-
-                                    <strong>
-                                        Pending
-                                    </strong>
-                                </div>
+                                                <strong>
+                                                    {submission.status ===
+                                                    "Graded"
+                                                        ? `Graded · ${
+                                                              submission.marks ??
+                                                              0
+                                                          }/10`
+                                                        : "Submitted"}
+                                                </strong>
+                                            </div>
+                                        ))
+                                )}
 
                                 <div className="summary-item">
                                     <span>
