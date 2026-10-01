@@ -10,6 +10,7 @@ import TeacherDashboard from "./pages/teacher/TeacherDashBoard";
 import TeacherAssignments from "./pages/teacher/TeacherAssignments";
 import TeacherCreateAssignment from "./pages/teacher/TeacherCreateAssignment";
 import TeacherSubmissions from "./pages/teacher/TeacherSubmissions";
+import TeacherSubmissionDetail from "./pages/teacher/TeacherSubmissionDetail";
 
 function App() {
     return (
@@ -70,6 +71,11 @@ function App() {
                 <Route
                     path="/teacher/submissions"
                     element={<TeacherSubmissions />}
+                />
+
+                <Route
+                    path="/teacher/submissions/:id"
+                    element={<TeacherSubmissionDetail />}
                 />
             </Routes>
         </BrowserRouter>

@@ -1966,3 +1966,70 @@ button {
         grid-row: 1 / span 2;
     }
 }
+.review-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr);
+    gap: 20px;
+}
+
+.student-submission-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid #e5e7e3;
+}
+
+.student-submission-info span {
+    display: block;
+    margin-bottom: 5px;
+    color: #858984;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.student-submission-info strong {
+    color: #303632;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.answer-section {
+    padding-top: 20px;
+}
+
+.answer-label {
+    margin: 0 0 10px;
+    color: #555b56;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.student-answer {
+    padding: 16px;
+    min-height: 130px;
+    background: #fafaf8;
+    border: 1px solid #e5e7e3;
+    color: #454b47;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.grading-card form {
+    margin-top: 20px;
+}
+
+.grade-button {
+    width: 100%;
+    margin-top: 4px;
+}
+
+@media (max-width: 800px) {
+    .review-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .student-submission-info {
+        grid-template-columns: 1fr;
+    }
+}
