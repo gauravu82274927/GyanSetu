@@ -14,7 +14,15 @@ function Login() {
         e.preventDefault();
 
         if (role === "student") {
+            localStorage.setItem("token", "mock-student-token");
+            localStorage.setItem("role", "student");
+
             navigate("/student/dashboard");
+        } else {
+            localStorage.setItem("token", "mock-teacher-token");
+            localStorage.setItem("role", "teacher");
+
+            navigate("/teacher/dashboard");
         }
     };
 

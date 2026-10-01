@@ -1,54 +1,90 @@
 import {
     LayoutDashboard,
     ClipboardList,
-    FileCheck2,
+    FileText,
     CalendarCheck,
-    User,
+    Users,
     LogOut,
     GraduationCap
 } from "lucide-react";
-import { NavLink } from "react-router-dom";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function Sidebar() {
+    const location = useLocation();
     const navigate = useNavigate();
+
+    const role = localStorage.getItem("role") || "student";
+
+    const studentLinks = [
+        {
+            label: "Dashboard",
+            path: "/student/dashboard",
+            icon: LayoutDashboard
+        },
+        {
+            label: "Assignments",
+            path: "/student/assignments",
+            icon: ClipboardList
+        },
+        {
+            label: "Submissions",
+            path: "/student/submissions",
+            icon: FileText
+        },
+        {
+            label: "Attendance",
+            path: "/student/attendance",
+            icon: CalendarCheck
+        }
+    ];
+
+    const teacherLinks = [
+        {
+            label: "Dashboard",
+            path: "/teacher/dashboard",
+            icon: LayoutDashboard
+        },
+        {
+            label: "Assignments",
+            path: "/teacher/assignments",
+            icon: ClipboardList
+        },
+        {
+            label: "Submissions",
+            path: "/teacher/submissions",
+            icon: FileText
+        },
+        {
+            label: "Attendance",
+            path: "/teacher/attendance",
+            icon: CalendarCheck
+        },
+        {
+            label: "Students",
+            path: "/teacher/students",
+            icon: Users
+        }
+    ];
+
+    const links = role === "teacher" ? teacherLinks : studentLinks;
 
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("role");
         navigate("/");
     };
-    const links = [
-        {
-            name: "Dashboard",
-            path: "/student/dashboard",
-            icon: LayoutDashboard
-        },
-        {
-            name: "Assignments",
-            path: "/student/assignments",
-            icon: ClipboardList
-        },
-        {
-            name: "Submissions",
-            path: "/student/submissions",
-            icon: FileCheck2
-        },
-        {
-            name: "Attendance",
-            path: "/student/attendance",
-            icon: CalendarCheck
-        }
-    ];
 
     return (
         <aside className="sidebar">
             <div className="sidebar-logo">
                 <div className="logo-icon">
-                    <GraduationCap size={22} />
+                    <GraduationCap size={19} />
                 </div>
 
-                <span>GyanSetu</span>
+                <div>
+                    <strong>GyanSetu</strong>
+                    <span>{role === "teacher" ? "Teacher Portal" : "Student Portal"}</span>
+                </div>
             </div>
 
             <nav className="sidebar-nav">
@@ -56,22 +92,27 @@ function Sidebar() {
                     const Icon = link.icon;
 
                     return (
-                        <NavLink
+                        <Link
                             key={link.path}
                             to={link.path}
-                            className={({ isActive }) =>
-                                `nav-link ${isActive ? "active" : ""}`
+                            className={
+                                location.pathname === link.path
+                                    ? "nav-link active"
+                                    : "nav-link"
                             }
                         >
-                            <Icon size={19} />
-                            <span>{link.name}</span>
-                        </NavLink>
+                            <Icon size={16} />
+                            <span>{link.label}</span>
+                        </Link>
                     );
                 })}
             </nav>
 
-            <button className="logout-button" onClick={handleLogout}>
-                <LogOut size={19} />
+            <button
+                className="logout-button"
+                onClick={handleLogout}
+            >
+                <LogOut size={16} />
                 <span>Logout</span>
             </button>
         </aside>

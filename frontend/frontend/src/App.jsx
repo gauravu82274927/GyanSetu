@@ -6,6 +6,8 @@ import StudentAssignments from "./pages/student/StudentAssignments";
 import StudentSubmissions from "./pages/student/StudentSubmissions";
 import StudentAttendance from "./pages/student/StudentAttendance";
 import StudentProfile from "./pages/student/StudentProfile";
+import TeacherDashboard from "./pages/teacher/TeacherDashBoard";
+import TeacherAssignments from "./pages/teacher/TeacherAssignments";
 
 function App() {
     return (
@@ -46,6 +48,16 @@ function App() {
                 <Route
                     path="*"
                     element={<Navigate to="/" replace />}
+                />
+
+                <Route
+                    path="/teacher/dashboard"
+                    element={<TeacherDashboard />}
+                />
+
+                <Route
+                    path="/teacher/assignments"
+                    element={<TeacherAssignments />}
                 />
             </Routes>
         </BrowserRouter>
